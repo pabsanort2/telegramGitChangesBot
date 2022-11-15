@@ -39,34 +39,10 @@ public class Application {
 			 */
 			System.out.println("\n>>> Cloning repository\n");
 			Repository repo = Git.cloneRepository().setProgressMonitor(consoleProgressMonitor).setDirectory(localRepoDir)
-					.setURI("https://github.com/deepanshujain92/test_git").call().getRepository();
+					.setURI("https://github.com/danibanez/bootcampsolera").call().getRepository();
 
 			try (Git git = new Git(repo)) {
-				/*
-				 * Get list of all branches (including remote) & print
-				 * 
-				 * Equivalent of --> $ git branch -a
-				 * 
-				 */
-				System.out.println("\n>>> Listing all branches\n");
-				git.branchList().setListMode(ListMode.ALL).call().stream().forEach(r  -> System.out.println(r.getName()));
-
-				// Find develop branch from remote repo.
-				Optional<String> developBranch = git.branchList().setListMode(ListMode.REMOTE).call().stream()
-						.map(r -> r.getName()).filter(n -> n.contains("develop")).findAny();
-
-				/*
-				 * If develop branch present then checkout.
-				 * 
-				 * Equivalent of --> $ git checkout -b local-develop /remotes/origin/develop
-				 */
-				if (developBranch.isPresent()) {
-					System.out.println("\n>>> Checking out develop branch\n");
-					git.checkout().setProgressMonitor(consoleProgressMonitor).setCreateBranch(true).setName("local-develop")
-							.setStartPoint(developBranch.get()).call();
-				}
-
-//				// Modify one file & append a line
+				// Modify one file & append a line 
 //				System.out.println("\n>>> Modifying test.txt\n");
 //				File fileInDevelop = Arrays.stream(localRepoDir.listFiles())
 //						.filter(f -> f.getName().contains("test.txt")).findFirst().get();
